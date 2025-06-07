@@ -21,4 +21,9 @@ export class CategoryService {
   getAllCategory(): Observable<CategoryModels[]> {
    return this.http.get<CategoryModels[]>(`${environment.apiBaseUrl}/api/Categories`);
   }
+
+  //lay danh muc theo id
+  getCategoryById(id: string):Observable<CategoryModels>{
+    return this.http.get<CategoryModels>(`${environment.apiBaseUrl}/api/Categories/${id}`)
+  }
 }
