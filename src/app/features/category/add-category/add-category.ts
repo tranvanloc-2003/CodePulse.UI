@@ -30,9 +30,6 @@ export class AddCategory implements OnDestroy {
       next: (response) => {
         this.router.navigateByUrl('/admin/categories');
       },
-      error: (error) => {
-        console.log('Ket noi that bai');
-      }
     })
 
   }
