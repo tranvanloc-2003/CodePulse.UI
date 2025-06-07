@@ -35,6 +35,7 @@ export class AddCategory implements OnDestroy {
     })
 
   }
+  //huy dang ki
   ngOnDestroy(): void {
     this.addCategorySubscribtion?.unsubscribe();
   }
