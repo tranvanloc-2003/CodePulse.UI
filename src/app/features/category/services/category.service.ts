@@ -4,6 +4,7 @@ import { AddCategoryRequest } from '../models/add-category-request-models';
 import { HttpClient } from '@angular/common/http';
 import { CategoryModels } from '../models/category.model';
 import { environment } from '../../../../environments/environment';
+import { UpdateCategoryRequest } from '../models/update-category-request';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +25,9 @@ export class CategoryService {
 
   //lay danh muc theo id
   getCategoryById(id: string):Observable<CategoryModels>{
-    return this.http.get<CategoryModels>(`${environment.apiBaseUrl}/api/Categories/${id}`)
+    return this.http.get<CategoryModels>(`${environment.apiBaseUrl}/api/Categories/${id}`);
+  }
+  updateCategory(id:string, updateCategoryRequest: UpdateCategoryRequest):Observable<CategoryModels>{
+    return this.http.put<CategoryModels>(`${environment.apiBaseUrl}/api/categories/${id}`,updateCategoryRequest);
   }
 }
