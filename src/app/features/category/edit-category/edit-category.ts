@@ -16,6 +16,7 @@ import { UpdateCategoryRequest } from '../models/update-category-request';
 export class EditCategory implements OnInit, OnDestroy {
   id: string | null = null;
   paramSubscription?: Subscription;
+  editCategorySubcription?: Subscription;
   category?: CategoryModels;
   constructor(private route: ActivatedRoute, private categoryServices: CategoryService, private router: Router) {
 
@@ -39,9 +40,7 @@ export class EditCategory implements OnInit, OnDestroy {
 
     });
   }
-  ngOnDestroy(): void {
-    this.paramSubscription?.unsubscribe();
-  }
+
   onFormSubmit(): void {
     // console.log(this.category);
     const updateCategoryRequest: UpdateCategoryRequest = {
@@ -50,12 +49,27 @@ export class EditCategory implements OnInit, OnDestroy {
     };
     // chuyển object này cho service
     if (this.id) {
-      this.categoryServices.updateCategory(this.id, updateCategoryRequest).subscribe({
+      this.editCategorySubcription = this.categoryServices.updateCategory(this.id, updateCategoryRequest).subscribe({
         next: (response) => {
           this.router.navigateByUrl('/admin/categories');
         }
       });
     }
 
+  }
+  onDelete(): void {
+    if (this.id) {
+
+      this.categoryServices.deleteCategory(this.id).subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/categories');
+        }
+      });
+
+    }
+  }
+  ngOnDestroy(): void {
+    this.paramSubscription?.unsubscribe();
+    this.editCategorySubcription?.unsubscribe();
   }
 }

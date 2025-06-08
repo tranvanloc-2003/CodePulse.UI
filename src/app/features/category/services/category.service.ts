@@ -20,14 +20,17 @@ export class CategoryService {
   }
   //categoryModels[] lay theo mang
   getAllCategory(): Observable<CategoryModels[]> {
-   return this.http.get<CategoryModels[]>(`${environment.apiBaseUrl}/api/Categories`);
+    return this.http.get<CategoryModels[]>(`${environment.apiBaseUrl}/api/Categories`);
   }
 
   //lay danh muc theo id
-  getCategoryById(id: string):Observable<CategoryModels>{
+  getCategoryById(id: string): Observable<CategoryModels> {
     return this.http.get<CategoryModels>(`${environment.apiBaseUrl}/api/Categories/${id}`);
   }
-  updateCategory(id:string, updateCategoryRequest: UpdateCategoryRequest):Observable<CategoryModels>{
-    return this.http.put<CategoryModels>(`${environment.apiBaseUrl}/api/categories/${id}`,updateCategoryRequest);
+  updateCategory(id: string, updateCategoryRequest: UpdateCategoryRequest): Observable<CategoryModels> {
+    return this.http.put<CategoryModels>(`${environment.apiBaseUrl}/api/categories/${id}`, updateCategoryRequest);
+  }
+  deleteCategory(id: string): Observable<CategoryModels> {
+    return this.http.delete<CategoryModels>(`${environment.apiBaseUrl}/api/categories/${id}`);
   }
 }
