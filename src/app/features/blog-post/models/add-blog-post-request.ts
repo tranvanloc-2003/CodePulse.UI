@@ -1,4 +1,4 @@
-export interface AddBlogPostModel {
+export interface AddBlogPostRequest {
     title: string;
     shortDescription: string;
     content: string;

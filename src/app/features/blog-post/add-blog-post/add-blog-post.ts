@@ -1,34 +1,43 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AddBlogPostModel } from '../models/add-blog-post-model';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
+import { BlogpostServices } from '../services/blogpost.services';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { AddBlogPostRequest } from '../models/add-blog-post-request';
 
 @Component({
   selector: 'app-add-blog-post',
-  imports: [FormsModule,DatePipe],
+  imports: [FormsModule, DatePipe],
   templateUrl: './add-blog-post.html',
   styleUrl: './add-blog-post.css'
 })
 export class AddBlogPost implements OnDestroy {
-  model: AddBlogPostModel;
-  constructor() {
-    this.model ={
+  model: AddBlogPostRequest;
+  private addBlogPostSubscrition?: Subscription;
+  constructor(private blogpostServices: BlogpostServices,private router: Router) {
+    this.model = {
       title: '',
-      shortDescription:'',
-      content:'',
-      urlHandle:'',
-      featuredImageUrl:'',
-      publishedDate:new Date(),
-      author:'',
+      shortDescription: '',
+      content: '',
+      urlHandle: '',
+      featuredImageUrl: '',
+      publishedDate: new Date(),
+      author: '',
       isInvisible: true
     }
-   }
-onFormSubmit():void{
-  console.log(this.model);
-}
+  }
+  onFormSubmit(): void {
+    // console.log(this.model);
+    this.addBlogPostSubscrition = this.blogpostServices.addBlogPost(this.model).subscribe({
+      next: (response) => {
+        this.router.navigateByUrl('/admin/blogposts');
+      }
+    })
+  }
 
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.addBlogPostSubscrition?.unsubscribe();
   }
 }
