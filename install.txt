@@ -1,0 +1,11 @@
+lenh npm install ngx-markdown
+them vao angular.json
+"styles": [
+  "styles.css",
++ "node_modules/prismjs/themes/prism-okaidia.css"
+],
+"scripts": [
++ "node_modules/prismjs/prism.js",
++ "node_modules/prismjs/components/prism-csharp.min.js", # c-sharp language syntax
++ "node_modules/prismjs/components/prism-css.min.js" # css language syntax
+]

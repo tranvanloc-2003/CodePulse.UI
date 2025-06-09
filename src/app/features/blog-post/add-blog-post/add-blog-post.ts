@@ -6,10 +6,11 @@ import { BlogpostServices } from '../services/blogpost.services';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AddBlogPostRequest } from '../models/add-blog-post-request';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-add-blog-post',
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe,MarkdownModule],
   templateUrl: './add-blog-post.html',
   styleUrl: './add-blog-post.css'
 })
