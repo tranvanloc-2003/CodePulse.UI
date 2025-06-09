@@ -7,5 +7,5 @@ export interface BlogPost {
     featuredImageUrl: string;
     publishedDate: Date;
     author: string;
-    isInvisible: boolean;
+    isvisible: boolean;
 }
