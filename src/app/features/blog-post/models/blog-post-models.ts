@@ -1,4 +1,5 @@
-export interface AddBlogPostRequest {
+export interface BlogPost {
+    id: string;
     title: string;
     shortDescription: string;
     content: string;
@@ -6,5 +7,5 @@ export interface AddBlogPostRequest {
     featuredImageUrl: string;
     publishedDate: Date;
     author: string;
-    Isvisible: boolean;
+    isInvisible: boolean;
 }

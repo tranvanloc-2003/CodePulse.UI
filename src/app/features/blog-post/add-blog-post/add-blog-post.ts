@@ -25,11 +25,11 @@ export class AddBlogPost implements OnDestroy {
       featuredImageUrl: '',
       publishedDate: new Date(),
       author: '',
-      isInvisible: true
+      Isvisible: true
     }
   }
   onFormSubmit(): void {
-    // console.log(this.model);
+    console.log(this.model);
     this.addBlogPostSubscrition = this.blogpostServices.addBlogPost(this.model).subscribe({
       next: (response) => {
         this.router.navigateByUrl('/admin/blogposts');
