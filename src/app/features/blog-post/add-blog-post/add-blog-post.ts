@@ -1,23 +1,26 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
 import { BlogpostServices } from '../services/blogpost.services';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AddBlogPostRequest } from '../models/add-blog-post-request';
 import { MarkdownModule } from 'ngx-markdown';
+import { CategoryService } from '../../category/services/category.service';
+import { CategoryModels } from '../../category/models/category.model';
 
 @Component({
   selector: 'app-add-blog-post',
-  imports: [FormsModule, DatePipe,MarkdownModule,NgIf],
+  imports: [FormsModule, DatePipe, MarkdownModule, NgIf, AsyncPipe,NgFor],
   templateUrl: './add-blog-post.html',
   styleUrl: './add-blog-post.css'
 })
-export class AddBlogPost implements OnDestroy {
+export class AddBlogPost implements OnInit {
   model: AddBlogPostRequest;
-  private addBlogPostSubscrition?: Subscription;
-  constructor(private blogpostServices: BlogpostServices,private router: Router) {
+  categories$?: Observable<CategoryModels[]>;
+  
+  constructor(private blogpostServices: BlogpostServices, private router: Router, private categoryServices: CategoryService) {
     this.model = {
       title: '',
       shortDescription: '',
@@ -29,16 +32,17 @@ export class AddBlogPost implements OnDestroy {
       Isvisible: true
     }
   }
+
   onFormSubmit(): void {
     console.log(this.model);
-    this.addBlogPostSubscrition = this.blogpostServices.addBlogPost(this.model).subscribe({
+    this.blogpostServices.addBlogPost(this.model).subscribe({
       next: (response) => {
         this.router.navigateByUrl('/admin/blogposts');
       }
     })
   }
 
-  ngOnDestroy(): void {
-    this.addBlogPostSubscrition?.unsubscribe();
+  ngOnInit(): void {
+    this.categories$ = this.categoryServices.getAllCategory();
   }
 }
