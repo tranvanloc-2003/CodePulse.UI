@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { BlogpostServices } from '../services/blogpost.services';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-add-blog-post',
-  imports: [FormsModule, DatePipe,MarkdownModule],
+  imports: [FormsModule, DatePipe,MarkdownModule,NgIf],
   templateUrl: './add-blog-post.html',
   styleUrl: './add-blog-post.css'
 })
