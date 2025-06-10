@@ -29,7 +29,8 @@ export class AddBlogPost implements OnInit {
       featuredImageUrl: '',
       publishedDate: new Date(),
       author: '',
-      Isvisible: true
+      Isvisible: true,
+      categories: []
     }
   }
 
