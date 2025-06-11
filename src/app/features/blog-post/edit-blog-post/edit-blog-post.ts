@@ -2,15 +2,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogpostServices } from '../services/blogpost.services';
 import { BlogPost } from '../models/blog-post-models';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormsModule, NgModel } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
-import { DatePipe, NgIf } from '@angular/common';
-import { UpdateCategoryRequest } from '../models/update-blog-post-request';
+import { AsyncPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import { CategoryModels } from '../../category/models/category.model';
+import { UpdateCategoryRequest } from '../../category/models/update-category-request';
+import { UpdateBlogPostRequest } from '../models/update-blog-post-request';
+import { CategoryService } from '../../category/services/category.service';
 
 @Component({
   selector: 'app-edit-blog-post',
-  imports: [FormsModule, MarkdownModule, NgIf, DatePipe],
+  imports: [FormsModule, MarkdownModule, NgIf, DatePipe, AsyncPipe, NgForOf],
   templateUrl: './edit-blog-post.html',
   styleUrl: './edit-blog-post.css'
 })
@@ -18,43 +21,50 @@ export class EditBlogPost implements OnInit, OnDestroy {
   id: string | null = null;
   model?: BlogPost;
   routeBlogPostSubcription?: Subscription;
-  constructor(private route: ActivatedRoute, private blogpostServices: BlogpostServices, private router: Router) { }
+  categories$?: Observable<CategoryModels[]>;
+  updateBlogPostSubscription?: Subscription;
+  getBlogPostSubscription?: Subscription;
+  selectedCategories?: string[];
+  constructor(private route: ActivatedRoute, private blogpostServices: BlogpostServices, private router: Router,private categoriesServices: CategoryService) { }
   onFormSubmit(): void {
-    // const updateCategoryRequest: UpdateCategoryRequest = {
-    //   title: this.model?.title ?? '',
-    //   shortDescription: this.model?.shortDescription ?? '',
-    //   content: this.model?.content ?? '',
-    //   urlHandle: this.model?.urlHandle ?? '',
-    //   featuredImageUrl: this.model?.featuredImageUrl ?? '',
-    //   publishedDate: this.model?.publishedDate ? new Date(this.model.publishedDate) : new Date(),
-    //   author: this.model?.author ?? '',
-    //   Isvisible: this.model?.isvisible ?? false,
-    //   categories: this.model?.categories.map(category => category.id) ?? [],
-    // };
-    // if (this.id) {
-    //   this.routeBlogPostSubcription = this.blogpostServices.updateBlogPost(this.id, updateCategoryRequest).subscribe({
-    //     next: (response) => {
-    //       this.router.navigateByUrl('/admin/blog-posts');
-    //     },
-    //     error: (error) => {
-    //       console.error('Error updating blog post:', error);
-    //     }
-    //   })
-    // }
+    //chuyen model thanh request object
+    if (this.model && this.id) {
+      var updateBlogPost: UpdateBlogPostRequest = {
+        author: this.model.author,
+        content: this.model.content,
+        featuredImageUrl: this.model.featuredImageUrl,
+        Isvisible: this.model.isvisible,
+        publishedDate: this.model.publishedDate,
+        shortDescription: this.model.shortDescription,
+        title: this.model.title,
+        urlHandle: this.model.urlHandle,
+        categories: this.selectedCategories ?? []
+
+      }
+      this.updateBlogPostSubscription = this.blogpostServices.updateBlogPost(this.id, updateBlogPost).subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/blogposts');
+        }
+      })
+    }
   }
 
 
   ngOnInit(): void {
+     this.categories$ = this.categoriesServices.getAllCategory();
     this.routeBlogPostSubcription = this.route.paramMap.subscribe({
       next: (params) => {
         this.id = params.get('id');
         if (this.id) {
-          this.blogpostServices.getBlogPostById(this.id).subscribe({
+          this.getBlogPostSubscription = this.blogpostServices.getBlogPostById(this.id).subscribe({
             next: (response) => {
               this.model = response;
-               console.log('Model loaded:', this.model);
+              this.selectedCategories = response.categories.map(x => x.id);
+            },
+            error: (error) => {
+              console.error('Error loading blog post:', error);
             }
-          })
+          });
         }
       }
     }
@@ -62,6 +72,8 @@ export class EditBlogPost implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.routeBlogPostSubcription?.unsubscribe();
+    this.updateBlogPostSubscription?.unsubscribe();
+    this.getBlogPostSubscription?.unsubscribe();
   }
 
 }

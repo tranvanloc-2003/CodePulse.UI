@@ -1,4 +1,4 @@
-export  interface UpdateCategoryRequest {
+export  interface UpdateBlogPostRequest {
     title: string;
     shortDescription: string;
     content: string;
@@ -7,6 +7,6 @@ export  interface UpdateCategoryRequest {
     publishedDate: Date;
     author: string;
     Isvisible: boolean;
-    categories?: string[];
+    categories: string[];
 
 }
