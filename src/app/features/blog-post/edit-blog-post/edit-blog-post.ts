@@ -10,10 +10,11 @@ import { CategoryModels } from '../../category/models/category.model';
 import { UpdateCategoryRequest } from '../../category/models/update-category-request';
 import { UpdateBlogPostRequest } from '../models/update-blog-post-request';
 import { CategoryService } from '../../category/services/category.service';
+import { ImageSelector } from "../../../shared/components/image-selector/image-selector";
 
 @Component({
   selector: 'app-edit-blog-post',
-  imports: [FormsModule, MarkdownModule, NgIf, DatePipe, AsyncPipe, NgForOf],
+  imports: [FormsModule, MarkdownModule, NgIf, DatePipe, AsyncPipe, NgForOf, ImageSelector],
   templateUrl: './edit-blog-post.html',
   styleUrl: './edit-blog-post.css'
 })

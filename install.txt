@@ -9,3 +9,5 @@ them vao angular.json
 + "node_modules/prismjs/components/prism-csharp.min.js", # c-sharp language syntax
 + "node_modules/prismjs/components/prism-css.min.js" # css language syntax
 ]
+
+ng g c image selector la them hinh anh 
