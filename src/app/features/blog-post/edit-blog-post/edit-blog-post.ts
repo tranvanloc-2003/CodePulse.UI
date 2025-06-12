@@ -24,8 +24,10 @@ export class EditBlogPost implements OnInit, OnDestroy {
   categories$?: Observable<CategoryModels[]>;
   updateBlogPostSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
+  deleteBlogPostSubscription?: Subscription;
+
   selectedCategories?: string[];
-  constructor(private route: ActivatedRoute, private blogpostServices: BlogpostServices, private router: Router,private categoriesServices: CategoryService) { }
+  constructor(private route: ActivatedRoute, private blogpostServices: BlogpostServices, private router: Router, private categoriesServices: CategoryService) { }
   onFormSubmit(): void {
     //chuyen model thanh request object
     if (this.model && this.id) {
@@ -49,31 +51,41 @@ export class EditBlogPost implements OnInit, OnDestroy {
     }
   }
 
-
-  ngOnInit(): void {
-     this.categories$ = this.categoriesServices.getAllCategory();
-    this.routeBlogPostSubcription = this.route.paramMap.subscribe({
-      next: (params) => {
-        this.id = params.get('id');
-        if (this.id) {
-          this.getBlogPostSubscription = this.blogpostServices.getBlogPostById(this.id).subscribe({
-            next: (response) => {
-              this.model = response;
-              this.selectedCategories = response.categories.map(x => x.id);
-            },
-            error: (error) => {
-              console.error('Error loading blog post:', error);
-            }
-          });
+  onDelete(): void {
+    // goi services va xoa blogpost
+    if (this.id) {
+      this.deleteBlogPostSubscription = this.blogpostServices.deleteBlogPost(this.id).subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/blogposts');
+        }
+      })
+    }
+  }
+    ngOnInit(): void {
+      this.categories$ = this.categoriesServices.getAllCategory();
+      this.routeBlogPostSubcription = this.route.paramMap.subscribe({
+        next: (params) => {
+          this.id = params.get('id');
+          if (this.id) {
+            this.getBlogPostSubscription = this.blogpostServices.getBlogPostById(this.id).subscribe({
+              next: (response) => {
+                this.model = response;
+                this.selectedCategories = response.categories.map(x => x.id);
+              },
+              error: (error) => {
+                console.error('Error loading blog post:', error);
+              }
+            });
+          }
         }
       }
+      )
     }
-    )
-  }
-  ngOnDestroy(): void {
-    this.routeBlogPostSubcription?.unsubscribe();
-    this.updateBlogPostSubscription?.unsubscribe();
-    this.getBlogPostSubscription?.unsubscribe();
-  }
+    ngOnDestroy(): void {
+      this.routeBlogPostSubcription?.unsubscribe();
+      this.updateBlogPostSubscription?.unsubscribe();
+      this.getBlogPostSubscription?.unsubscribe();
+      this.deleteBlogPostSubscription?.unsubscribe();
+    }
 
-}
+  }
