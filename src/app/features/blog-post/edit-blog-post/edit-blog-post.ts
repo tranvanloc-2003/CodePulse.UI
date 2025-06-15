@@ -5,16 +5,17 @@ import { BlogPost } from '../models/blog-post-models';
 import { Observable, Subscription } from 'rxjs';
 import { FormsModule, NgModel } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
-import { AsyncPipe, CommonModule, DatePipe,} from '@angular/common';
+import { AsyncPipe, CommonModule, DatePipe, } from '@angular/common';
 import { CategoryModels } from '../../category/models/category.model';
 import { UpdateCategoryRequest } from '../../category/models/update-category-request';
 import { UpdateBlogPostRequest } from '../models/update-blog-post-request';
 import { CategoryService } from '../../category/services/category.service';
 import { ImageSelector } from "../../../shared/components/image-selector/image-selector";
+import { ImageServices } from '../../../shared/components/image-selector/services/image.services';
 
 @Component({
   selector: 'app-edit-blog-post',
-  imports: [FormsModule, MarkdownModule, DatePipe, AsyncPipe, ImageSelector,CommonModule],
+  imports: [FormsModule, MarkdownModule, DatePipe, AsyncPipe, ImageSelector, CommonModule],
   templateUrl: './edit-blog-post.html',
   styleUrl: './edit-blog-post.css'
 })
@@ -26,9 +27,11 @@ export class EditBlogPost implements OnInit, OnDestroy {
   updateBlogPostSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
   deleteBlogPostSubscription?: Subscription;
-  isImageSelectorVisible: boolean =false;
+  imageSelectSubscription?: Subscription;
+
+  isImageSelectorVisible: boolean = false;
   selectedCategories?: string[];
-  constructor(private route: ActivatedRoute, private blogpostServices: BlogpostServices, private router: Router, private categoriesServices: CategoryService) { }
+  constructor(private route: ActivatedRoute, private blogpostServices: BlogpostServices, private router: Router, private categoriesServices: CategoryService, private imageServices: ImageServices) { }
   onFormSubmit(): void {
     //chuyen model thanh request object
     if (this.model && this.id) {
@@ -78,6 +81,14 @@ export class EditBlogPost implements OnInit, OnDestroy {
             }
           });
         }
+        this.imageSelectSubscription = this.imageServices.onSelectImage().subscribe({
+          next: (response) => {
+            if (this.model) {
+              this.model.featuredImageUrl = response.url;
+              this.isImageSelectorVisible = false; // Close the image selector after selecting an image
+            }
+          }
+        })
       }
     }
     )
@@ -87,12 +98,13 @@ export class EditBlogPost implements OnInit, OnDestroy {
     this.updateBlogPostSubscription?.unsubscribe();
     this.getBlogPostSubscription?.unsubscribe();
     this.deleteBlogPostSubscription?.unsubscribe();
+    this.imageSelectSubscription?.unsubscribe();
   }
   //mo image selector
   openImageSelector(): void {
-this.isImageSelectorVisible = true;
+    this.isImageSelectorVisible = true;
   }
-closeImageSelector(): void {
-  this.isImageSelectorVisible = false;
-}
+  closeImageSelector(): void {
+    this.isImageSelectorVisible = false;
+  }
 }

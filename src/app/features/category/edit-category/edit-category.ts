@@ -7,6 +7,7 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UpdateCategoryRequest } from '../models/update-category-request';
 
+
 @Component({
   selector: 'app-edit-category',
   imports: [NgIf, FormsModule],
@@ -35,7 +36,7 @@ export class EditCategory implements OnInit, OnDestroy {
             }
           });
         }
-
+        
       }
 
     });

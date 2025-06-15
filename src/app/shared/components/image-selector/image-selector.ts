@@ -17,10 +17,10 @@ export class ImageSelector implements OnInit {
   title: string = '';
   images$?: Observable<BlogImage[]>;
 
-@ViewChild('form', {static: false}) upLoadForm?: NgForm;
+  @ViewChild('form', { static: false }) upLoadForm?: NgForm;
 
-  constructor(private imageServices : ImageServices) { }
- 
+  constructor(private imageServices: ImageServices) { }
+
   onFileUploadChange(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     this.file = element.files?.[0];
@@ -30,17 +30,20 @@ export class ImageSelector implements OnInit {
       //upload hinh anh tu services
       this.imageServices.uploadImage(this.file, this.fileName, this.title).subscribe({
         next: (data) => {
-         this.upLoadForm?.resetForm(); // Reset the form after successful upload
-         this.getImages(); // Refresh the image list after upload
+          this.upLoadForm?.resetForm(); // Reset the form after successful upload
+          this.getImages(); // Refresh the image list after upload
         }
       })
     }
   }
-  
-  ngOnInit(): void {
-   this.getImages();
+  selectedImage(image: BlogImage): void {
+    this.imageServices.selectImage(image);
+
   }
-  private getImages(){
- this.images$ = this.imageServices.getImage();
-  } 
+  ngOnInit(): void {
+    this.getImages();
+  }
+  private getImages() {
+    this.images$ = this.imageServices.getImage();
+  }
 }
