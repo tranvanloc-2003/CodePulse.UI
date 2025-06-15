@@ -5,8 +5,13 @@ import { EditCategory } from './features/category/edit-category/edit-category';
 import { AddBlogPost } from './features/blog-post/add-blog-post/add-blog-post';
 import { BlogPostList } from './features/blog-post/blog-post-list/blog-post-list';
 import { EditBlogPost } from './features/blog-post/edit-blog-post/edit-blog-post';
+import { Home } from './features/public/home/home';
 
 export const routes: Routes = [
+  {
+    path:'',
+    component: Home
+  },
   // Existing category list route
   {
     path: 'admin/categories',
