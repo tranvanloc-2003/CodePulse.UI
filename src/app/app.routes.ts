@@ -7,14 +7,17 @@ import { BlogPostList } from './features/blog-post/blog-post-list/blog-post-list
 import { EditBlogPost } from './features/blog-post/edit-blog-post/edit-blog-post';
 import { Home } from './features/public/home/home';
 import { BlogDetails } from './features/public/blog-details/blog-details';
+import { Login } from './features/auth/login/login';
+import { Register } from './features/auth/register/register';
 
 export const routes: Routes = [
 
   {
-    path:'',
+    path: '',
     component: Home
   },
-  {path:'blog/:url',
+  {
+    path: 'blog/:url',
     component: BlogDetails
   },
   // Existing category list route
@@ -42,5 +45,14 @@ export const routes: Routes = [
   {
     path: 'admin/blogposts/:id',
     component: EditBlogPost
+  },
+  //auth
+  {
+    path: 'auth/login',
+    component: Login
+  },
+  {
+    path: 'auth/register',
+    component: Register
   }
 ];
