@@ -20,7 +20,7 @@ export class Login {
     }
   }
   onSubmitLogin(): void {
-    console.log('Login submitted', this.model);
+    // console.log('Login submitted', this.model);
     this.authService.login(this.model).subscribe({
       next: (response) => {
         // console.log('Login successful', response);
@@ -29,6 +29,12 @@ export class Login {
 
         // chuyen trang ve trang chu
         this.router.navigateByUrl('/');
+
+        //dat user
+        this.authService.setUser({
+          email: response.email,
+          roles: response.roles
+        })
 
       }, error: (error) => {
         console.error('Login failed', error);
