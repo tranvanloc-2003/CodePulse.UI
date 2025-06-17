@@ -4,7 +4,7 @@ export  interface UpdateBlogPostRequest {
     content: string;
     urlHandle: string;
     featuredImageUrl: string;
-    publishedDate: Date;
+    dateCreate: Date;
     author: string;
     Isvisible: boolean;
     categories: string[];

@@ -30,7 +30,7 @@ export class AddBlogPost implements OnInit, OnDestroy {
       content: '',
       urlHandle: '',
       featuredImageUrl: '',
-      publishedDate: new Date(),
+      dateCreate: new Date(),
       author: '',
       Isvisible: true,
       categories: []

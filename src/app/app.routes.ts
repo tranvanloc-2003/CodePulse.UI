@@ -6,11 +6,16 @@ import { AddBlogPost } from './features/blog-post/add-blog-post/add-blog-post';
 import { BlogPostList } from './features/blog-post/blog-post-list/blog-post-list';
 import { EditBlogPost } from './features/blog-post/edit-blog-post/edit-blog-post';
 import { Home } from './features/public/home/home';
+import { BlogDetails } from './features/public/blog-details/blog-details';
 
 export const routes: Routes = [
+
   {
     path:'',
     component: Home
+  },
+  {path:'blog/:url',
+    component: BlogDetails
   },
   // Existing category list route
   {

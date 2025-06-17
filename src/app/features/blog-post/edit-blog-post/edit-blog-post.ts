@@ -40,7 +40,7 @@ export class EditBlogPost implements OnInit, OnDestroy {
         content: this.model.content,
         featuredImageUrl: this.model.featuredImageUrl,
         Isvisible: this.model.isvisible,
-        publishedDate: this.model.publishedDate,
+        dateCreate: this.model.dateCreate,
         shortDescription: this.model.shortDescription,
         title: this.model.title,
         urlHandle: this.model.urlHandle,

@@ -47,10 +47,10 @@
                         [(ngModel)]="model.featuredImageUrl">
                 </div>
                 <div class="mt-3">
-                    <label for="publicshedDate" class="form-label">Published Date</label>
-                    <input type="date" name="publishedDate" id="publishedDate" class="form-control"
-                        value="{{model.publishedDate}}" [ngModel]="model.publishedDate | date: 'yyy-MM-dd'"
-                        (ngModelChange)="model.publishedDate = $event">
+                    <label for="dateCreate" class="form-label">Published Date</label>
+                    <input type="date" name="dateCreate" id="dateCreate" class="form-control"
+                        value="{{model.dateCreate}}" [ngModel]="model.dateCreate | date: 'yyy-MM-dd'"
+                        (ngModelChange)="model.dateCreate = $event">
                 </div>
                 <div class="mt-3">
                     <label for="author" class="form-label">Author</label>
