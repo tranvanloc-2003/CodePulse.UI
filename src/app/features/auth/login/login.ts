@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { LoginRequestModel } from './models/login-request-model';
 import { FormsModule } from '@angular/forms';
+import { LoginRequestModel } from '../models/login-equest-model';
+import { AuthServices } from '../services/auth.services';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +10,22 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.css'
 })
 export class Login {
-model: LoginRequestModel
-constructor(){
-  this.model ={
-    email: '',
-    password: ''
+  model: LoginRequestModel
+  constructor(private authService: AuthServices) {
+    this.model = {
+      email: '',
+      password: ''
+    }
   }
-}
-onSubmitLogin():void{
-console.log('Login submitted', this.model);
-}
+  onSubmitLogin(): void {
+    console.log('Login submitted', this.model);
+    this.authService.login(this.model).subscribe({
+      next: (response) => {
+        console.log('Login successful', response);
+
+      },error: (error) => {
+        console.error('Login failed', error);
+      }
+    })
+  }
 }
