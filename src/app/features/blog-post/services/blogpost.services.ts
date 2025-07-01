@@ -14,13 +14,9 @@ export class BlogpostServices {
 
   constructor(private http: HttpClient, private cookiesServices: CookieService) { }
   addBlogPost(data: AddBlogPostRequest): Observable<BlogPost> {
-    return this.http.post<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost`, data,
+    return this.http.post<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost?AddAuth=true`, data,
 
-      {
-        headers:{
-          'Authorization': this.cookiesServices.get('Authorization')
-        }
-      }
+     
     );
   }
   getAllBlogPost():Observable<BlogPost[]>{
@@ -30,22 +26,14 @@ export class BlogpostServices {
     return this.http.get<BlogPost>(`${environment.apiBaseUrl}/api/blogpost/${id}`);
   }
   updateBlogPost(id: string, data: AddBlogPostRequest): Observable<BlogPost> {
-    return this.http.put<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost/${id}`, data,
+    return this.http.put<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost/${id}?AddAuth=true`, data,
 
-      {
-        headers:{
-          'Authorization': this.cookiesServices.get('Authorization')
-        }
-      }
+     
     );
   }
   deleteBlogPost(id: string):Observable<BlogPost>{
-    return this.http.delete<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost/${id}`, 
-      {
-        headers:{
-          'Authorization': this.cookiesServices.get('Authorization')
-        }
-      }
+    return this.http.delete<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost/${id}?AddAuth=true`, 
+      
     );
   }
 }

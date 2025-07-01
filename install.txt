@@ -11,3 +11,5 @@ them vao angular.json
 ]
 
 ng g c image selector la them hinh anh 
+
+ng g interceptor // la tao file interceptor
