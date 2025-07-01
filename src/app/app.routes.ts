@@ -9,6 +9,7 @@ import { Home } from './features/public/home/home';
 import { BlogDetails } from './features/public/blog-details/blog-details';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
+import { authGuard } from './features/auth/guard/auth-guard';
 
 export const routes: Routes = [
 
@@ -23,28 +24,34 @@ export const routes: Routes = [
   // Existing category list route
   {
     path: 'admin/categories',
-    component: CategoryList
+    component: CategoryList,
+    canActivate: [authGuard] // Add any guards if needed
   },
   // Corrected Add Category route to match routerLink
   {
     path: 'admin/categories/add', // Changed from 'add-category' to 'add'
-    component: AddCategory
+    component: AddCategory,
+    canActivate: [authGuard] // Add any guards if needed
   },
   {
     path: 'admin/categories/:id',
-    component: EditCategory
+    component: EditCategory,
+    canActivate: [authGuard] // Add any guards if needed
   },
   {
     path: 'admin/blogposts',
-    component: BlogPostList
+    component: BlogPostList,
+    canActivate: [authGuard] // Add any guards if needed
   },
   {
     path: 'admin/blogposts/add',
-    component: AddBlogPost
+    component: AddBlogPost,
+    canActivate: [authGuard] // Add any guards if needed
   },
   {
     path: 'admin/blogposts/:id',
-    component: EditBlogPost
+    component: EditBlogPost,
+    canActivate: [authGuard] // Add any guards if needed
   },
   //auth
   {

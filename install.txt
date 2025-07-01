@@ -13,3 +13,7 @@ them vao angular.json
 ng g c image selector la them hinh anh 
 
 ng g interceptor // la tao file interceptor
+
+ ng g guard auth lenh tao guard // tranh truy cap link (admin) khi khong login
+
+ 12-22 them jwt decode
