@@ -17,7 +17,11 @@ export class CategoryService {
   }
 
   addCategory(model: AddCategoryRequest): Observable<void> {
-    return this.http.post<void>(`${environment.apiBaseUrl}/api/categories`, model);
+    return this.http.post<void>(`${environment.apiBaseUrl}/api/categories`, model,{
+        headers:{
+          'Authorization': this.cookieServices.get('Authorization')
+        }
+      });
   }
   //categoryModels[] lay theo mang
   getAllCategory(): Observable<CategoryModels[]> {
@@ -39,6 +43,13 @@ export class CategoryService {
     );
   }
   deleteCategory(id: string): Observable<CategoryModels> {
-    return this.http.delete<CategoryModels>(`${environment.apiBaseUrl}/api/categories/${id}`);
+    return this.http.delete<CategoryModels>(`${environment.apiBaseUrl}/api/categories/${id}`,
+
+      {
+        headers: {
+          'Authorization': this.cookieServices.get('Authorization')
+        }
+      }
+    );
   }
 }

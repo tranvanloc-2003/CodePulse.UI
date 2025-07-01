@@ -14,7 +14,14 @@ export class BlogpostServices {
 
   constructor(private http: HttpClient, private cookiesServices: CookieService) { }
   addBlogPost(data: AddBlogPostRequest): Observable<BlogPost> {
-    return this.http.post<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost`, data);
+    return this.http.post<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost`, data,
+
+      {
+        headers:{
+          'Authorization': this.cookiesServices.get('Authorization')
+        }
+      }
+    );
   }
   getAllBlogPost():Observable<BlogPost[]>{
     return this.http.get<BlogPost[]>(`${environment.apiBaseUrl}/api/BlogPost`)
@@ -33,6 +40,12 @@ export class BlogpostServices {
     );
   }
   deleteBlogPost(id: string):Observable<BlogPost>{
-    return this.http.delete<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost/${id}`);
+    return this.http.delete<BlogPost>(`${environment.apiBaseUrl}/api/BlogPost/${id}`, 
+      {
+        headers:{
+          'Authorization': this.cookiesServices.get('Authorization')
+        }
+      }
+    );
   }
 }
