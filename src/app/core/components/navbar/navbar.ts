@@ -15,7 +15,7 @@ export class Navbar implements OnInit{
   constructor(private authServices : AuthServices,private router: Router) {}
   onShowLogout(): void{
     this.authServices.logout();
-    this.router.navigate(['auth/login']);
+    this.router.navigateByUrl('/');
 
   }
   ngOnInit(): void {

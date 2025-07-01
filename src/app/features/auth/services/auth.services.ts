@@ -43,6 +43,7 @@ export class AuthServices {
     return undefined;
   }
   logout(): void {
+    localStorage.clear();
     this.$user.next(undefined);
     this.cookieServices.delete('Authorization','/');
   }

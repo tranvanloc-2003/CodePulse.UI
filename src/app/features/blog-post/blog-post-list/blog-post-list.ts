@@ -17,6 +17,7 @@ export class BlogPostList implements OnInit {
   constructor(private blogpostServices: BlogpostServices) { }
   ngOnInit(): void {
     this.blogPost$ = this.blogpostServices.getAllBlogPost();
+
     // this.blogPost$.subscribe(data => console.log(data)); // <- Log ra dữ liệu
   }
 
